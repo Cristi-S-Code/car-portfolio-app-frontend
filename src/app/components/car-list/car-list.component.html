@@ -1,0 +1,46 @@
+<div class="modalBtn">
+<button type="button" class="btn btn-primary" id="modalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+    <i class="bi bi-plus-lg"></i> Add new car</button>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add new car</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="carForm">
+          <div class="mb-3">
+            <label for="link" class="col-form-label">Link to documentation:</label>
+            <input type="text" class="form-control" formControlName="link" id="link">
+          </div>
+          <div class="mb-3">
+            <label for="description" class="col-form-label">Car description:</label>
+            <textarea class="form-control" id="description" formControlName="description"></textarea>
+          </div>
+          <div class="mb-3" >
+            <!-- <input type="file" class="file-input"  (change)="onFileSelected($event)" #fileUpload >
+            <div class="file-upload"  >
+
+              {{fileName || "No file uploaded yet."}}
+              
+               <button type="button" class="btn btn-secondary btn-sm" id="file" formControlName="file"
+                 (click)="fileUpload.click()" >
+                 <i class="bi bi-plus-circle-dotted"></i>
+               </button> -->
+           <!-- </div> -->
+
+           <input type="file" (change)="onFileSelected($event)" formControlName="file" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" [disabled]="carForm.invalid" (click)="saveCar()">Submit</button>
+      </div>
+    </div>
+    
+  </div>
+</div>

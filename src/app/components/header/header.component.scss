@@ -1,0 +1,59 @@
+#header {
+    background-color: #212A3E;
+}
+
+a {
+    color: #F0F0F0;
+}
+
+a:hover {
+    color: #f0f0f0b4;
+}
+
+nav .nav-link.active {
+    color: #a1bfd1;
+}
+
+#brand {
+    padding-left: 5%;
+    opacity: 0;
+    animation: slideRight 1s ease forwards;
+    
+}
+
+#navElem {
+    padding-right: 5%;
+    transition: 0.3s;
+    opacity: 0;
+    animation: slideTop .5s ease forwards;
+}
+
+
+
+// KEYFRAMES ANIMATIONS
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+}
+
+@keyframes slideTop {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+}
