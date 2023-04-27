@@ -35,7 +35,7 @@ export class CarListComponent implements OnInit{
     this._subscriptionList.push();
     // this._getIdFromLink();
   }
-
+  
 
   // ngOnDestroy(): void {
     
