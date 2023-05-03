@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, take } from 'rxjs';
 import { Car } from 'src/app/models/car';
 import { CarService } from 'src/app/services/car.service';
+import { SplashScreenStateService } from 'src/app/services/splash-screen-state.service';
 // import { uuid } from 'uuidv4';
 import {v4 as uuidv4} from 'uuid';
 
@@ -20,18 +21,19 @@ export class CarListComponent implements OnInit{
   selectedCar?: Car;
   carForm!: FormGroup;
   idFromLink?: string;
-
+ 
 
   constructor(
     private _formBuilder: FormBuilder,
     private _carService: CarService,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute
+    private _splashScreenStateService: SplashScreenStateService
     ) {
       this._createForm();
     }
 
   ngOnInit(){
+    this._splashScreenStateService.stop();
     this._subscriptionList.push();
     // this._getIdFromLink();
   }
@@ -41,6 +43,8 @@ export class CarListComponent implements OnInit{
     
   //   this._subscriptionList.forEach((sub: Subscription) => sub.unsubscribe());
   // }
+
+ 
 
   saveCar() {
     console.log("we are getting  here1")

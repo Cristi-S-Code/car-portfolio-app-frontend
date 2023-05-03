@@ -1,5 +1,6 @@
 #header {
     background-color: #212A3E;
+    font-size: 1.5vw;
 }
 
 a {
@@ -12,13 +13,14 @@ a:hover {
 
 nav .nav-link.active {
     color: #a1bfd1;
+    text-shadow: 2px 2px 8px rgb(255, 149, 0);
 }
 
 #brand {
     padding-left: 5%;
     opacity: 0;
     animation: slideRight 1s ease forwards;
-    
+    font-size: 2vw;
 }
 
 #navElem {

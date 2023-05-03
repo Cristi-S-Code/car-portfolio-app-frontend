@@ -6,8 +6,8 @@ import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'car-list', component: CarListComponent},
+  {path: 'home', component: HomeComponent, data: {animation: 'homePage'}},
+  {path: 'car-list', component: CarListComponent, data: {animation: 'carListPage'}},
   {path: 'car-form', component: CarFormComponent},
   { path: '**', redirectTo: 'home' }
 

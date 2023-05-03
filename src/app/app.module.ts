@@ -14,6 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
+import { SplashScreenStateService } from './services/splash-screen-state.service';
+import { CarService } from './services/car.service';
+import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 
 
 @NgModule({
@@ -23,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     CarListComponent,
     CarFormComponent,
     HomeComponent,
+    SplashScreenComponent,
     
   ],
   imports: [
@@ -33,7 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     ReactiveFormsModule 
   ],
-  providers: [],
+  providers: [SplashScreenStateService, CarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
