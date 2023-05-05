@@ -16,9 +16,13 @@ export class CarService {
     private _router: Router,
   ) { }
 
-  createCar(car: Car): Observable<Car>{
+  createCar(car: FormData): Observable<Car>{
     return this._httpClient.post(`${this._baseUrl}/cars/add`, car) as Observable<Car>;
   }  
+
+  getAllCars(): Observable<Car[]>{
+    return this._httpClient.get(`${this._baseUrl}/cars`) as Observable<Car[]>;
+  }
 
 
 

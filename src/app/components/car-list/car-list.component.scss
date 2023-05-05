@@ -35,8 +35,9 @@ body  {
 }
 
 .wrapper {
-  display: inline-flex;
+  // display: inline-flex;
   cursor: default;
+  justify-content: center;
 }
 .wrapper .static-txt{
   color: #fff;
@@ -115,4 +116,12 @@ body  {
 	30% { opacity: 1; transform: translateY(0px); }
 	80% { opacity: 1; }
 	100% { opacity: 1; }
+}
+
+.container {
+  flex-direction: column;
+  align-items: center;
+}
+.carousel {
+  background-attachment: fixed;
 }

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, take } from 'rxjs';
 import { Car } from 'src/app/models/car';
 import { CarService } from 'src/app/services/car.service';
@@ -21,6 +22,7 @@ export class CarListComponent implements OnInit{
   selectedCar?: Car;
   carForm!: FormGroup;
   idFromLink?: string;
+  carList: Car[] = [];
  
 
   constructor(
@@ -37,6 +39,9 @@ export class CarListComponent implements OnInit{
     this._subscriptionList.push();
     // this._getIdFromLink();
   }
+  resetForm() {
+    this.carForm.reset();
+  }
   
 
   // ngOnDestroy(): void {
@@ -50,7 +55,7 @@ export class CarListComponent implements OnInit{
     console.log("we are getting  here1")
     // let uniqueId = uuidv4().replace(/\D+/g,'');
     // const carId = parseInt(uniqueId,10);
-    let uniqueId = 0;
+    let uniqueId = 9;
     this.carForm.get('id')?.setValue(uniqueId);
     const newCar: Car = {
       id: this.selectedCar?.id ?? null,
@@ -61,17 +66,43 @@ export class CarListComponent implements OnInit{
 
   private _createCar(newCar: Car) {
     console.log("we are getting  here2")
-    // console.log("This is the new car tryng to create ===>", newCar)
-      this._carService.createCar(newCar).pipe(take(1)).subscribe({
+    console.log("This is the new car tryng to create ===>", newCar)
+
+      const productFormData = this.prepareFormData(newCar);
+      console.log("This is the new formdata tryng to create ===>", productFormData)
+      this._carService.createCar(productFormData).pipe(take(1)).subscribe({
         next: () => {
           console.log("This is the new car created ===>", newCar),
-          // this.resetForm(),
+          this.resetForm(),
           this._router.navigate(['/car-list'])
         },
         error: () => alert('Object was not created. Call your IT responsable!')
       })
   }
 
+  prepareFormData(car: Car): FormData {
+    const formData = new FormData;
+
+    formData.append(
+      'newCar',
+      new Blob([JSON.stringify(car)], {type: 'application/json'})
+    );
+
+    formData.append(
+      'imageFile',
+      car.image,
+      car.image.name
+    )  
+     //for multiple images   
+    // for(let i=0; i<car.image.length; i++) {
+    //   formData.append(
+    //     'imageFile',
+    //     car.image[i].file,
+    //     car.image[i].file.name
+    //   );
+    // }
+    return formData;
+  }
   
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
@@ -84,11 +115,15 @@ export class CarListComponent implements OnInit{
   private _createForm() {
     this.carForm = this._formBuilder.group({
       description: ['', [Validators.required]],
-      id:[null],
+      id:[''],
       image: [''],
       link: ['', [Validators.required]],
     });
     console.log("we are getting  here4")
   }
 
+
+  // this is the logic for carousel part
+  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  
 }
