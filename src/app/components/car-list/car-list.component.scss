@@ -121,7 +121,26 @@ body  {
 .container {
   flex-direction: column;
   align-items: center;
+  margin-top: -30px;
+  row-gap: 30px;
 }
 .carousel {
-  background-attachment: fixed;
+  // position: sticky;
+  width: 900px;
+  // height: 500px;
+}
+
+.product-slider-image {
+  object-fit: fill;
+  // width: 100%;
+  width: 900px;
+  height: 500px;
+}
+.portfolio-description {
+  color: #0d131e;
+  cursor: default;
+}
+.portfolio-link {
+  color: #212A3E;
+  text-decoration: none;
 }

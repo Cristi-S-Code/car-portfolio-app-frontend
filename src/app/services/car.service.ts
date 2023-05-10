@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Car } from '../models/car';
 import { Observable } from 'rxjs';
+import { ImageModel } from '../models/image-model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,13 @@ export class CarService {
     return this._httpClient.post(`${this._baseUrl}/cars/add`, car) as Observable<Car>;
   }  
 
-  getAllCars(): Observable<Car[]>{
-    return this._httpClient.get(`${this._baseUrl}/cars`) as Observable<Car[]>;
+  // getAllCars(): Observable<Car[]>{
+  //   return this._httpClient.get(`${this._baseUrl}/cars`) as Observable<Car[]>;
+  // }
+
+  getAllCars(): Observable<ImageModel[]>{
+    return this._httpClient.get(`${this._baseUrl}/cars`) as Observable<ImageModel[]>;
   }
-
-
 
 
 }

@@ -4,6 +4,7 @@ export interface Car {
     description: string;
     image: File;
     link: string;
+    // carImage: File;
 
 
 }
