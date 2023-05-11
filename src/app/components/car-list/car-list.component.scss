@@ -125,8 +125,9 @@ body  {
   row-gap: 30px;
 }
 .carousel {
-  // position: sticky;
+  position: relative;
   width: 900px;
+
   // height: 500px;
 }
 
@@ -143,4 +144,17 @@ body  {
 .portfolio-link {
   color: #212A3E;
   text-decoration: none;
+}
+
+.buttons {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.edit-button {
+  padding-right: 25px;
+
+}
+.delete-button {
+  padding-right: 250px;
 }

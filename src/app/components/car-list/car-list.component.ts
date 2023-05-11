@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbCarousel, NgbModal, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, map, take } from 'rxjs';
 import { Car } from 'src/app/models/car';
 import { FileHandle } from 'src/app/models/file-handle.model';
@@ -13,11 +13,13 @@ import { SplashScreenStateService } from 'src/app/services/splash-screen-state.s
 // import { uuid } from 'uuidv4';
 import {v4 as uuidv4} from 'uuid';
 
+
 @Component({
   selector: 'app-car-list',
   templateUrl: './car-list.component.html',
   styleUrls: ['./car-list.component.scss']
 })
+
 export class CarListComponent implements OnInit{
   
   subscriptionList: Subscription[] = [];
@@ -37,6 +39,7 @@ export class CarListComponent implements OnInit{
     private _router: Router,
     private _splashScreenStateService: SplashScreenStateService,
     private _imageProcessingService: ImageProcessingService,
+    public modal: NgbModal,
     ) {
       this._createForm();
     }
@@ -73,21 +76,17 @@ export class CarListComponent implements OnInit{
   resetForm() {
     this.carForm.reset();
   }
-  
-
-  // ngOnDestroy(): void {
-    
-  //   this._subscriptionList.forEach((sub: Subscription) => sub.unsubscribe());
-  // }
-
- 
 
   saveCar() {
     console.log("we are getting  here1")
     // let uniqueId = uuidv4().replace(/\D+/g,'');
     // const carId = parseInt(uniqueId,10);
-    let uniqueId = 10;
-    this.carForm.get('id')?.setValue(uniqueId);
+    // console.log(carId);
+    
+    const carId = new Date().getTime();  
+    console.log(carId);
+    
+    this.carForm.get('id')?.setValue(carId);
     const newCar: Car = {
       id: this.selectedCar?.id ?? null,
       ...this.carForm.getRawValue()};
@@ -154,7 +153,21 @@ export class CarListComponent implements OnInit{
   }
 
 
-  // this is the logic for carousel part
-  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  
+  deleteValues(initialCar: ImageModel) {
+    // this._router.navigate(['www.google.com'])
+    this._carService.deleteCar(initialCar.id).pipe(take(1)).subscribe({
+      next: () => {
+      //   this._router.navigate(['/car-list']).then(() => {
+      //   window.location.reload();
+      // })
+      const index = this.imageModel.findIndex(((p: { id: number; }) => p.id === initialCar.id));
+      // this._modalService.open(MODALS[focusFirst])
+      if (index !== -1) {
+        this.imageModel.splice(index, 1);
+      }
+     }
+    })
+  }
   
 }

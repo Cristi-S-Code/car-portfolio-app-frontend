@@ -29,5 +29,8 @@ export class CarService {
     return this._httpClient.get(`${this._baseUrl}/cars`) as Observable<ImageModel[]>;
   }
 
+  deleteCar(id: number): Observable<ImageModel>{
+    return this._httpClient.delete(`${this._baseUrl}/cars/delete/${id}`) as Observable<ImageModel>;
+  }
 
 }

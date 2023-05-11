@@ -6,7 +6,7 @@ export interface ImageModel {
     carImage: File;
     // carImage: File;
     // car model
-    id: string;
+    id: number;
     description: string;
     // image: File;
     link: string;
