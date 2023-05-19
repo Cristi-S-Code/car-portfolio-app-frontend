@@ -152,9 +152,27 @@ body  {
   right: 0;
 }
 .edit-button {
-  padding-right: 25px;
-
+  padding-right: 220px;
+  padding-bottom: 30px;
 }
 .delete-button {
   padding-right: 250px;
+}
+
+.image-preview {
+  padding-top: 35px;
+  position: relative;
+}
+.btn-remove-image {
+  position: absolute;
+  cursor: pointer;
+  top: 15px;
+  right: 147px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
 }

@@ -18,34 +18,36 @@ import { SplashScreenStateService } from './services/splash-screen-state.service
 import { CarService } from './services/car.service';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { ToastGlobalComponent } from './components/toast-global/toast-global.component';
+import { ToastsContainer } from "./components/toast-global/toasts-container.component";
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    CarListComponent,
-    CarFormComponent,
-    HomeComponent,
-    SplashScreenComponent,
-    
-  ],
-  imports: [
-    BrowserModule,
-    NgbModule,
-    HttpClientModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule ,
-    FormsModule,
-    NgbCarouselModule
-
-  ],
-  // exports: [
-  //   CommonModule,
-  //   ApplicationModule
-  // ],
-  providers: [SplashScreenStateService, CarService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        CarListComponent,
+        CarFormComponent,
+        HomeComponent,
+        SplashScreenComponent,
+        ToastGlobalComponent,
+    ],
+    // exports: [
+    //   CommonModule,
+    //   ApplicationModule
+    // ],
+    providers: [SplashScreenStateService, CarService],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        NgbModule,
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgbCarouselModule,
+        ToastsContainer
+    ]
 })
 export class AppModule { }

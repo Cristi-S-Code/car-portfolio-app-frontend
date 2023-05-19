@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal, NgbCarousel, NgbModal, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,7 @@ import { ImageModel } from 'src/app/models/image-model';
 import { CarService } from 'src/app/services/car.service';
 import { ImageProcessingService } from 'src/app/services/image-processing.service';
 import { SplashScreenStateService } from 'src/app/services/splash-screen-state.service';
+import { ToastService } from 'src/app/services/toast.service';
 // import { uuid } from 'uuidv4';
 import {v4 as uuidv4} from 'uuid';
 
@@ -32,6 +33,12 @@ export class CarListComponent implements OnInit{
   imageModel: any;
   object: Object = Object.keys;
   data!: FileHandle[];
+  url: any;
+  urlHolder: any;
+
+
+  @ViewChild('fileInput', {static: false})
+  myInputVariable!: ElementRef;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -39,7 +46,7 @@ export class CarListComponent implements OnInit{
     private _router: Router,
     private _splashScreenStateService: SplashScreenStateService,
     private _imageProcessingService: ImageProcessingService,
-    public modal: NgbModal,
+    private _toastService: ToastService
     ) {
       this._createForm();
     }
@@ -75,6 +82,8 @@ export class CarListComponent implements OnInit{
 
   resetForm() {
     this.carForm.reset();
+    this.url = null;
+    this.myInputVariable.nativeElement.value = '';
   }
 
   saveCar() {
@@ -102,13 +111,25 @@ export class CarListComponent implements OnInit{
       console.log("This is the new formdata tryng to create ===>", productFormData)
       this._carService.createCar(productFormData).pipe(take(1)).subscribe({
         next: () => {
-          console.log("This is the new car created ===>", newCar),
-          this.resetForm(),
-          this._router.navigate(['/car-list'])
+          // console.log("This is the new car created ===>", newCar),
+          this.resetForm();
+          this.url = null;
+          // this._router.navigate(['/car-list']),
+
+          // const index = this.carList.findIndex(((p: { id: string; }) => p.id === newCar.id));
+          // let indexToString = index.toString();
+          this._toastService.show('Car added successfully', { classname: 'bg-primary text-light fs-2', delay: 3000 });
+          // if (index !== -1) {
+          //    this.carList.push();
+          // }
+
+
         },
         error: () => alert('Object was not created. Call your IT responsable!')
       })
   }
+
+  
 
   prepareFormData(car: Car): FormData {
     const formData = new FormData;
@@ -140,6 +161,15 @@ export class CarListComponent implements OnInit{
       this.carForm.get('image')?.setValue(file);
     }
     console.log("we are getting  here3")
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.target!.result;
+      }
+    }
   }
 
   private _createForm() {
@@ -153,21 +183,61 @@ export class CarListComponent implements OnInit{
   }
 
 
-  
   deleteValues(initialCar: ImageModel) {
-    // this._router.navigate(['www.google.com'])
     this._carService.deleteCar(initialCar.id).pipe(take(1)).subscribe({
       next: () => {
-      //   this._router.navigate(['/car-list']).then(() => {
-      //   window.location.reload();
-      // })
       const index = this.imageModel.findIndex(((p: { id: number; }) => p.id === initialCar.id));
-      // this._modalService.open(MODALS[focusFirst])
+      this._toastService.show('Car deleted successfully', { classname: 'bg-success text-light fs-2', delay: 3000 });
       if (index !== -1) {
         this.imageModel.splice(index, 1);
       }
      }
     })
+  }
+
+  getCarById(id: number) {
+    console.log("what is this??");
+    
+    console.log(id);
+    
+    this._carService.getCarById(id).pipe(
+      take(1),
+      map(car => this._imageProcessingService.createImages(car))
+      )
+      .subscribe({
+      next: (car:ImageModel) => {
+        this.carForm.patchValue(car);
+        // this.imageModel = car;
+        // this.imageModel = Object.values(car);
+        this.carList = Object.values(car);
+        console.log("this must be patched value form");
+        console.log(this.carList);
+        
+        
+      }
+    })
+  }
+
+  removeImage() {
+    this.url = null;
+    this.myInputVariable.nativeElement.value = '';
+  }
+
+  onFileSelectedToEdit(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.carForm.get('image')?.setValue(file);
+    }
+    console.log("we are getting  here3")
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.target!.result;
+      }
+    }
   }
   
 }

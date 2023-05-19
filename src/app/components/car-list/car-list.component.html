@@ -1,9 +1,9 @@
+<!-- modal for add new car -->
 <div class="modalBtn">
-<button type="button" class="btn btn-primary" id="modalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+<button type="button" class="btn btn-primary" id="modalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" >
     <i class="bi bi-plus-lg"></i> Add project</button>
 </div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -31,21 +31,27 @@
                  <i class="bi bi-plus-circle-dotted"></i>
                </button> -->
            <!-- </div> -->
-
-           <input type="file" (change)="onFileSelected($event)" formControlName="file" />
+           <div>
+            <input type="file" #fileInput (change)="onFileSelected($event)" formControlName="file" />
+           </div>
+           <!-- Image Preview -->
+            <div class="image-preview">
+               <img [src]="url" height="200px" width="300px">
+               <span class="btn-remove-image" (click)="removeImage()">x</span>
+            </div>   
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" [disabled]="carForm.invalid" (click)="saveCar()">Submit</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Cancel</button>
+        <button class="btn btn-primary" [disabled]="carForm.invalid" (click)="saveCar()" data-bs-dismiss="modal">Submit</button>
       </div>
     </div>
     
   </div>
 </div>
 
-
+<!-- Title text -->
 <body class="container">
   <div class="wrapper">
     <div class="letter-txt"><span>T</span></div>
@@ -66,12 +72,65 @@
         <!-- link with interpolation, and maybe hidden under an icon button.. -->
         <a class="portfolio-link" href="{{item.link}}" target="_blank">Click here to find more about this legend</a>
       </div>
-      <span class="material-icons edit-button buttons">edit</span>
-      <span class="material-icons delete-button buttons" type="button" (click)="deleteValues(item)"> delete</span>
+      <!-- edit button -->
+      <span class="material-icons edit-button buttons" type="button" data-bs-toggle="modal" attr.data-bs-target="#editModal{{item.id}}" (click)="getCarById(item.id)" data-bs-whatever="@mdo">edit</span>
+      <!-- modal for edit btn -->
+      <div class="modal fade" id="editModal{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
+        <div class="modal-dialog" id="{{item.id}}">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Update car details</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="carForm">
+                <div class="mb-3">
+                  <label for="link" class="col-form-label">Link to documentation:</label>
+                  <input type="text" class="form-control" formControlName="link" id="link">
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="col-form-label">Car description:</label>
+                  <textarea class="form-control" id="description" formControlName="description"></textarea>
+                </div>
+                <div class="mb-3" >
+                 <input type="file" (change)="onFileSelectedToEdit($event)" formControlName="file" />
+                </div>
+                <!-- Image Preview -->
+            <div class="image-preview">
+              <img [src]="url" height="200px" width="300px">
+              <!-- <span class="btn-remove-image" (click)="removeImage(url)">x</span> -->
+           </div> 
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Cancel</button>
+              <button class="btn btn-primary" [disabled]="carForm.invalid" (click)="saveCar()" data-bs-dismiss="modal">Update</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- delete button -->
+      <span class="material-icons delete-button buttons" type="button" data-bs-toggle="modal" attr.data-bs-target="#deleteModal{{item.id}}" data-bs-whatever="@mdo"> delete</span>
+    <!-- modal for delete btn -->
+    <div class="modal fade" id="deleteModal{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" id="{{item.id}}">
+        <div class="modal-content">
+              <ngb-alert type="danger" [dismissible]="false">
+                <strong>Warning!</strong> After deletion, you will be unable te retreive this data.
+              </ngb-alert>
+                      <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteValues(item)">Ok</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
     </ng-template>
   </ngb-carousel>
 
-  <!-- modal for delete confirmation modal -->
-  <!-- to be implemented.... -->
 
 </body>

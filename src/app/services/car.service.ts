@@ -33,4 +33,7 @@ export class CarService {
     return this._httpClient.delete(`${this._baseUrl}/cars/delete/${id}`) as Observable<ImageModel>;
   }
 
+  getCarById(id: number): Observable<ImageModel>{
+    return this._httpClient.get(`${this._baseUrl}/cars/edit/${id}`) as Observable<ImageModel>;
+  }
 }
