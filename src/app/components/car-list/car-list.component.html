@@ -32,10 +32,10 @@
                </button> -->
            <!-- </div> -->
            <div>
-            <input type="file" #fileInput (change)="onFileSelected($event)" formControlName="file" />
+            <input type="file" id="file-input" #fileInput (change)="onFileSelected($event)" formControlName="file" />
            </div>
            <!-- Image Preview -->
-            <div class="image-preview">
+            <div class="image-preview" *ngIf="url !== null">
                <img [src]="url" height="200px" width="300px">
                <span class="btn-remove-image" (click)="removeImage()">x</span>
             </div>   
@@ -83,7 +83,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form [formGroup]="carForm">
+              <form [formGroup]="editForm">
                 <div class="mb-3">
                   <label for="link" class="col-form-label">Link to documentation:</label>
                   <input type="text" class="form-control" formControlName="link" id="link">
@@ -93,18 +93,19 @@
                   <textarea class="form-control" id="description" formControlName="description"></textarea>
                 </div>
                 <div class="mb-3" >
-                 <input type="file" (change)="onFileSelectedToEdit($event)" formControlName="file" />
+                 <!-- <input type="file" #fileInput (change)="onFileSelectedToEdit($event)" formControlName="file" /> -->
+                 <input type="file" #fileInput (change)="onFileSelectedToEdit($event)" formControlName="file" />
                 </div>
                 <!-- Image Preview -->
-            <div class="image-preview">
-              <img [src]="url" height="200px" width="300px">
-              <!-- <span class="btn-remove-image" (click)="removeImage(url)">x</span> -->
+            <div class="image-preview" *ngFor="let i of item.carImage">
+              <img [src]="i.url" height="200px" width="300px">
+              <span class="btn-remove-image" (click)="removeImage()">x</span>
            </div> 
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Cancel</button>
-              <button class="btn btn-primary" [disabled]="carForm.invalid" (click)="saveCar()" data-bs-dismiss="modal">Update</button>
+              <button class="btn btn-primary" [disabled]="editForm.invalid" (click)="saveCar()" data-bs-dismiss="modal">Update</button>
             </div>
           </div>
           

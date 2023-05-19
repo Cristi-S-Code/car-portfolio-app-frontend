@@ -31,9 +31,11 @@ export class CarListComponent implements OnInit{
   carList: Car[] = [];
   formDataRetrieved: any;
   imageModel: any;
+  editForm!: FormGroup;
   object: Object = Object.keys;
   data!: FileHandle[];
   url: any;
+  urlToEdit: any;
   urlHolder: any;
 
 
@@ -49,6 +51,7 @@ export class CarListComponent implements OnInit{
     private _toastService: ToastService
     ) {
       this._createForm();
+      this._editForm();
     }
 
   ngOnInit(){
@@ -182,6 +185,16 @@ export class CarListComponent implements OnInit{
     console.log("we are getting  here4")
   }
 
+  private _editForm() {
+    this.editForm = this._formBuilder.group({
+      description: ['', [Validators.required]],
+      id:[''],
+      file: [''],
+      currentImage: [''],
+      link: ['', [Validators.required]],
+    })
+  }
+
 
   deleteValues(initialCar: ImageModel) {
     this._carService.deleteCar(initialCar.id).pipe(take(1)).subscribe({
@@ -197,23 +210,16 @@ export class CarListComponent implements OnInit{
 
   getCarById(id: number) {
     console.log("what is this??");
-    
     console.log(id);
-    
     this._carService.getCarById(id).pipe(
       take(1),
       map(car => this._imageProcessingService.createImages(car))
       )
       .subscribe({
       next: (car:ImageModel) => {
-        this.carForm.patchValue(car);
-        // this.imageModel = car;
-        // this.imageModel = Object.values(car);
-        this.carList = Object.values(car);
-        console.log("this must be patched value form");
-        console.log(this.carList);
-        
-        
+        this.editForm.patchValue(car);
+        console.log(car);
+        // this.editForm.get('currentImage')?.setValue(car.carImage);
       }
     })
   }
@@ -238,6 +244,21 @@ export class CarListComponent implements OnInit{
         this.url = event.target!.result;
       }
     }
+
+    // const reader = new FileReader();
+
+    // if (event.target.files && event.target.files.length) {
+    //   const [file] = event.target.files;
+    //   reader.readAsDataURL(file);
+    //   reader.onload = () => {
+    //     this.editForm.patchValue({
+    //       tso: reader.result
+    //     });
+
+        // need to run CD since file load runs outside of zone
+        // this.cd.markForCheck();
+      // }
+    // }
   }
   
 }
