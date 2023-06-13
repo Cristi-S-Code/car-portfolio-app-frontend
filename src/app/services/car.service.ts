@@ -36,4 +36,8 @@ export class CarService {
   getCarById(id: number): Observable<ImageModel>{
     return this._httpClient.get(`${this._baseUrl}/cars/edit/${id}`) as Observable<ImageModel>;
   }
+
+  updateCar(car: FormData): Observable<Car>{
+    return this._httpClient.put(`${this._baseUrl}/cars/update`, car) as Observable<Car>;
+  }
 }

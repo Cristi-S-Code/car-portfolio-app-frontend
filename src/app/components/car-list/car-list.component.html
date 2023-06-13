@@ -60,7 +60,7 @@
       </div>
   </div>
   <!-- Here starts the carousel navigator -->
-  <ngb-carousel *ngIf="imageModel" class="carousel">
+  <ngb-carousel *ngIf="imageModel" class="carousel" data-pause="hover">
     <ng-template *ngFor="let item of imageModel" ngbSlide>
       <div *ngFor="let i of item.carImage" class="picsum-img-wrapper">
         <img class="product-slider-image" [src]="i.url" alt="Random first slide" />
@@ -68,9 +68,11 @@
       </div>
       <div class="carousel-caption">
         <!-- short description with interpolation -->
-        <h3 class="portfolio-description">{{item.description}}</h3>
+        <div class="description">
+          <h3 class="portfolio-description">{{item.description}}</h3>
+        </div>
         <!-- link with interpolation, and maybe hidden under an icon button.. -->
-        <a class="portfolio-link" href="{{item.link}}" target="_blank">Click here to find more about this legend</a>
+        <a class="portfolio-link" href="{{item.link}}" target="_blank" >Click here to find more about this legend</a>
       </div>
       <!-- edit button -->
       <span class="material-icons edit-button buttons" type="button" data-bs-toggle="modal" attr.data-bs-target="#editModal{{item.id}}" (click)="getCarById(item.id)" data-bs-whatever="@mdo">edit</span>
@@ -94,18 +96,30 @@
                 </div>
                 <div class="mb-3" >
                  <!-- <input type="file" #fileInput (change)="onFileSelectedToEdit($event)" formControlName="file" /> -->
-                 <input type="file" #fileInput (change)="onFileSelectedToEdit($event)" formControlName="file" />
+                 <div>
+                 <input type="file" id="file-input2" #fileInput (change)="onFileSelectedToEdit($event)" formControlName="carImage" />
                 </div>
-                <!-- Image Preview -->
-            <div class="image-preview" *ngFor="let i of item.carImage">
-              <img [src]="i.url" height="200px" width="300px">
-              <span class="btn-remove-image" (click)="removeImage()">x</span>
-           </div> 
+
+                  <!-- Image Preview add new-->
+                  <div class="image-preview" *ngIf="url !== null" >
+                    <img [src]="url" height="200px" width="300px">
+                     <span class="btn-remove-image" (click)="removeImage()">x</span>
+                  </div>
+                  <!-- Image Preview -->
+                  <div *ngIf="url == null" >
+                    <div class="image-preview" *ngFor="let i of item.carImage" #onFileSelectedToEdit>
+                      <img [src]="i.url" height="200px" width="300px">
+                      <!-- <span class="btn-remove-image" (click)="removeImage()">x</span> -->
+                     </div> 
+                  </div>
+                                  
+            
+        </div> 
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()">Cancel</button>
-              <button class="btn btn-primary" [disabled]="editForm.invalid" (click)="saveCar()" data-bs-dismiss="modal">Update</button>
+              <button class="btn btn-primary" [disabled]="editForm.invalid" (click)="updateValues(item)" data-bs-dismiss="modal">Update</button>
             </div>
           </div>
           

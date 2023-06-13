@@ -138,8 +138,12 @@ body  {
   height: 500px;
 }
 .portfolio-description {
-  color: #0d131e;
   cursor: default;
+  color: white;
+  font: 400 4vmin/6vh cookie, cursive;
+  filter: drop-shadow(.05em .05em orange);
+  text-align: center;
+  mix-blend-mode: difference
 }
 .portfolio-link {
   color: #212A3E;
@@ -175,4 +179,16 @@ body  {
   height: 20px;
   line-height: 20px;
   text-align: center;
+}
+
+.description {
+
+}
+
+.portfolio-description {
+  color: white;
+  font: 400 4vmin/6vh cookie, cursive;
+  filter: drop-shadow(.05em .05em orange);
+  text-align: center;
+  mix-blend-mode: difference
 }
