@@ -74,6 +74,7 @@
         <!-- link with interpolation, and maybe hidden under an icon button.. -->
         <a class="portfolio-link" href="{{item.link}}" target="_blank" >Click here to find more about this legend</a>
       </div>
+      <div class="button-container">
       <!-- edit button -->
       <span class="material-icons edit-button buttons" type="button" data-bs-toggle="modal" attr.data-bs-target="#editModal{{item.id}}" (click)="getCarById(item.id)" data-bs-whatever="@mdo">edit</span>
       <!-- modal for edit btn -->
@@ -143,7 +144,7 @@
         
       </div>
     </div>
-
+    </div>
     </ng-template>
   </ngb-carousel>
 

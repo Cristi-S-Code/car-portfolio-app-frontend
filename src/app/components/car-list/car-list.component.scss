@@ -28,7 +28,7 @@
 // }
 body  {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   // min-height: 100vh;
   font-family: 'Poppins', sans-serif;
@@ -140,11 +140,12 @@ body  {
 .portfolio-description {
   cursor: default;
   color: white;
-  font: 400 4vmin/6vh cookie, cursive;
+  font: 400 3vmin/6vh cookie, cursive;
   filter: drop-shadow(.05em .05em orange);
   text-align: center;
   mix-blend-mode: difference
 }
+
 .portfolio-link {
   color: #212A3E;
   text-decoration: none;
@@ -155,12 +156,26 @@ body  {
   bottom: 0;
   right: 0;
 }
-.edit-button {
-  padding-right: 220px;
-  padding-bottom: 30px;
+
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  // margin-top: -50px; /* Adjust as needed */
 }
+
+.edit-button{
+  cursor: pointer;
+  margin-right: 175px;
+}
+
 .delete-button {
-  padding-right: 250px;
+  cursor: pointer;
+  margin-right: 150px;
+}
+
+h3{
+  margin-bottom: -0.5rem !important;
 }
 
 .image-preview {
@@ -181,14 +196,4 @@ body  {
   text-align: center;
 }
 
-.description {
 
-}
-
-.portfolio-description {
-  color: white;
-  font: 400 4vmin/6vh cookie, cursive;
-  filter: drop-shadow(.05em .05em orange);
-  text-align: center;
-  mix-blend-mode: difference
-}
